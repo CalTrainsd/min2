@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<script type="text/javascript" src="phonegap.js"></script>
+        <title>Title</title>
+
+<script>
+
+///////////////////// filesystem
+
+var fileSystem = {} ;
+
+function fileErrorHandler(e) {
+	  var msg = '';
+
+	  switch (e.code) {
+	    case FileError.QUOTA_EXCEEDED_ERR:
+	      msg = 'QUOTA_EXCEEDED_ERR';
+	      break;
+	    case FileError.NOT_FOUND_ERR:
+	      msg = 'NOT_FOUND_ERR';
+	      break;
+	    case FileError.SECURITY_ERR:
+	      msg = 'SECURITY_ERR';
+	      break;
+	    case FileError.INVALID_MODIFICATION_ERR:
+	      msg = 'INVALID_MODIFICATION_ERR';
+	      break;
+	    case FileError.INVALID_STATE_ERR:
+	      msg = 'INVALID_STATE_ERR';
+	      break;
+	    default:
+	      msg = 'Unknown Error';
+	      break;
+	  };
+
+	  consolelog('Error: '+e.code+", " + msg );
+}
+
+function onDeviceReady() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fileErrorHandler);
+ }
+
+function onFileSystemSuccess(fs) {
+	fileSystem = fs ;
+	consolelog("fsn: "+fileSystem.name);
+	consolelog("fpn: "+fileSystem.root.fullPath);
+}
+
+/////////////////////////////////
+
+////////////////////////log mess
+function consolelog( msg) {
+
+	var mess = document.getElementById( 'mess')
+	mess.innerHTML += "<br>>" + msg ;
+}
+
+</script>
+ 
+</head>
+<body>
+
+<p>Hello World123</p>
+ <div id="mess"></div>
+ 
+<script type="text/javascript">
+document.addEventListener('deviceready', onDeviceReady, false);
+consolelog("hello")
+//onDeviceReady() ;
+//consolelog("hello");
+//consolelog("lfs:"+typeof(LocalFileSystem));
+</script>
+</body>
+</html>
